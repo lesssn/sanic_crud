@@ -57,7 +57,7 @@ class CrudShortcuts(object):
 
     @property
     def primary_key_type(self):
-        pk_field = self.fields.get(self.primary_key).get_column_type()
+        pk_field = self.fields.get(self.primary_key).field_type()
 
         column_type = pk_field.replace(' ', '')
         column_type = column_type.replace('AUTO_INCREMENT', '')
