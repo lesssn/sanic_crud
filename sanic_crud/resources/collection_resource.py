@@ -3,7 +3,7 @@ from math import ceil
 import datetime
 
 from playhouse.shortcuts import model_to_dict
-from sanic.log import log
+from sanic.log import logger
 
 from ..resources.base_resource import BaseResource
 
@@ -43,7 +43,7 @@ def collection_filter(func):
                 return self.response_json(status_code=400,
                                           message=response_messages.ErrorInvalidField.format(key, fields.keys()))
 
-            log.error(value)
+            logger.error(value)
             # Validate that the value is the correct type
             if comparison in ['in', 'notin']:
                 value = value.split(',')
@@ -150,7 +150,7 @@ class BaseCollectionResource(BaseResource):
                                       page=page,
                                       total_pages=total_pages)
         except Exception as e:
-            log.error(traceback.print_exc())
+            logger.error(traceback.print_exc())
             return self.response_json(message=str(e),
                                       status_code=500
                                       )
@@ -168,7 +168,7 @@ class BaseCollectionResource(BaseResource):
                                       message=self.config.response_messages.SuccessRowCreated.format(result.id)
                                       )
         except Exception as e:
-            log.error(traceback.print_exc())
+            logger.error(traceback.print_exc())
             return self.response_json(message=str(e),
                                       status_code=500
                                       )

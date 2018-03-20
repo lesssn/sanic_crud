@@ -1,7 +1,7 @@
 import traceback
 
 from playhouse.shortcuts import model_to_dict
-from sanic.log import log
+from sanic.log import logger
 
 from ..resources.base_resource import BaseResource
 
@@ -38,7 +38,7 @@ class BaseSingleResource(BaseResource):
                     message=response_messages.SuccessOk
                 )
         except Exception as e:
-            log.error(traceback.print_exc())
+            logger.error(traceback.print_exc())
             return self.response_json(
                 message=str(e),
                 status_code=500
@@ -76,7 +76,7 @@ class BaseSingleResource(BaseResource):
                 message=response_messages.SuccessOk
             )
         except Exception as e:
-            log.error(traceback.print_exc())
+            logger.error(traceback.print_exc())
             return self.response_json(
                 message=str(e),
                 status_code=500
@@ -104,7 +104,7 @@ class BaseSingleResource(BaseResource):
                 message=response_messages.SuccessRowDeleted.format(primary_key)
             )
         except Exception as e:
-            log.error(traceback.print_exc())
+            logger.error(traceback.print_exc())
             return self.response_json(
                 message=str(e),
                 status_code=500

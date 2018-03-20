@@ -1,6 +1,6 @@
 from peewee import SqliteDatabase, Model, CharField, DateTimeField, IntegerField, ForeignKeyField
 from sanic import Sanic
-from sanic.log import log
+from sanic.log import logger
 import datetime
 
 from sanic_crud import generate_crud
@@ -37,6 +37,6 @@ except Exception:
 
 app = Sanic(__name__)
 
-app.log = log
+app.log = logger
 generate_crud(app, [Person, Job])
 app.go_fast(host='0.0.0.0', port=8000, debug=True)

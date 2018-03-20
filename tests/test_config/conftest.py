@@ -6,7 +6,7 @@ import pytest
 def app(request):
     from peewee import SqliteDatabase, Model, CharField, IntegerField, ForeignKeyField
     from sanic import Sanic
-    from sanic.log import log
+    from sanic.log import logger
 
     from sanic_crud import generate_crud
     from sanic_crud.config import CrudConfig, ResponseMessages
@@ -36,7 +36,7 @@ def app(request):
     person.save()
 
     test_app = Sanic(__name__)
-    test_app.log = log
+    test_app.log = logger
     config = CrudConfig
     response_messages = ResponseMessages
     response_messages.SuccessOk = "Cool Brah"

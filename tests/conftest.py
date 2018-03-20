@@ -6,7 +6,7 @@ import pytest
 def app(request):
     from peewee import SqliteDatabase, Model, CharField, IntegerField, ForeignKeyField
     from sanic import Sanic
-    from sanic.log import log
+    from sanic.log import logger
 
     from sanic_crud import generate_crud
 
@@ -34,7 +34,7 @@ def app(request):
 
     test_app = Sanic(__name__)
 
-    test_app.log = log
+    test_app.log = logger
     generate_crud(test_app, [Person, Job])
 
     def final():
