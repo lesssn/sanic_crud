@@ -46,7 +46,7 @@ class CrudConfig(object):
 # Internal class only used to shortcut a variety of things
 class CrudShortcuts(object):
     def __init__(self, model):
-        self.table_name = model._meta.db_table
+        self.table_name = model._meta.table_name
         self.model = model
 
     @property
