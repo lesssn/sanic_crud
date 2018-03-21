@@ -42,12 +42,12 @@ def _generate_base_route(model_array):
         required_fields = model.shortcuts.required_fields
         for field, field_object in model.shortcuts.fields.items():
             field_name = field_object.name
-            # field_type = field_object.get_db_field()
+            field_type = field_object.field_type
             is_required = field_name in required_fields or field_object.primary_key
 
             fields.append({
                 'field_name': field_name,
-                # 'field_type': field_type,
+                'field_type': field_type,
                 'is_required': is_required
             })
 

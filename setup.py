@@ -11,8 +11,8 @@ setup(
     packages=['sanic_crud', 'sanic_crud.resources'],
     platforms='any',
     install_requires=[
-        'peewee==2.8.5',
-        'sanic==0.3.0'
+        'peewee==3.1.5',
+        'sanic==0.7.0'
     ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',

@@ -63,6 +63,8 @@ class CrudShortcuts(object):
         column_type = column_type.replace('AUTO_INCREMENT', '')
 
         types = {
+            'AUTO': 'int',
+            'FLOAT': 'number',
             'INTEGER': 'int',
             'SERIAL': 'int',
             'VARCHAR': 'str'
@@ -76,27 +78,14 @@ class CrudShortcuts(object):
 
     @property
     def required_fields(self):
-        required_fields = []
-        for field, field_object in self.editable_fields.items():
-            if not field_object.null:
-                required_fields.append(field)
-
+        required_fields = [field for field, field_object in self.editable_fields.items() if not field_object.null]
         return required_fields
 
     @property
     def editable_fields(self):
-        fields = {}
-        for key, value in self.model._meta.fields.items():
-            if self.primary_key == key:
-                continue
-
-            fields[key] = value
+        fields = {key: value for key, value in self.model._meta.fields.items() if self.primary_key != key}
         return fields
 
     @property
     def fields(self):
-        fields = {}
-        for key, value in self.model._meta.fields.items():
-            fields[key] = value
-
-        return fields
+        return self.model._meta.fields
