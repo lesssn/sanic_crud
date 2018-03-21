@@ -1,6 +1,16 @@
 from sanic.views import HTTPMethodView
 from sanic.response import json
 
+INT_FIELD_TYPES = ['INT', 'SMALLINT', 'AUTO']
+FLOAT_FIELD_TYPES = ['DOUBLE', 'FLOAT', 'DECIMAL']
+LONG_INT_FIELD_TYPES = ['BIGAUTO', 'BIGINT']
+NUMBER_FIELD_TYPES = INT_FIELD_TYPES + FLOAT_FIELD_TYPES + LONG_INT_FIELD_TYPES
+
+STRING_FIELD_TYPES = ['CHAR', 'TEXT', 'UUID', 'VARCHAR']
+BOOL_FIELD_TYPES = ['BOOL']
+TIME_FIELD_TYPES = ['DATE', 'DATETIME', 'DATETIME', 'TIME']
+BLOB_FIELD_TYPES = ['BLOB']
+
 
 class BaseResource(HTTPMethodView):
     model = None
@@ -78,13 +88,13 @@ class BaseResource(HTTPMethodView):
         request_data = request.json
 
         for key, value in request_data.items():
-            expected_type = fields.get(key).db_field
+            expected_type = fields.get(key).field_type
 
-            if expected_type in ['int', 'bool']:
+            if expected_type in NUMBER_FIELD_TYPES or expected_type in BOOL_FIELD_TYPES:
                 try:
                     int(value)
                 except (ValueError, TypeError):
-                    if expected_type == 'int':
+                    if expected_type in NUMBER_FIELD_TYPES:
                         message = response_messages.ErrorTypeInteger.format(value)
                     else:
                         message = response_messages.ErrorTypeBoolean.format(value)
@@ -141,11 +151,11 @@ class BaseResource(HTTPMethodView):
         request_data = request.json
 
         for key, value in request_data.items():
-            field_type = shortcuts.editable_fields.get(key).db_field
-            if field_type == 'int':
+            field_type = shortcuts.editable_fields.get(key).field_type
+            if field_type in INT_FIELD_TYPES:
                 min_size = -2147483647
                 max_size = 2147483647
-            elif field_type == 'bigint':
+            elif field_type in LONG_INT_FIELD_TYPES:
                 min_size = -9223372036854775808
                 max_size = 9223372036854775807
             else:

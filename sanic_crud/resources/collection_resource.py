@@ -5,7 +5,7 @@ import datetime
 from playhouse.shortcuts import model_to_dict
 from sanic.log import logger
 
-from ..resources.base_resource import BaseResource
+from ..resources.base_resource import BaseResource, NUMBER_FIELD_TYPES, BOOL_FIELD_TYPES, TIME_FIELD_TYPES
 
 
 def collection_filter(func):
@@ -89,17 +89,17 @@ def collection_filter(func):
 
 # Helper function, takes in a database field and an input value to make sure the input is the correct type for the db
 def _validate_field_type(self, field, value):
-    expected_field_type = field.db_field
+    expected_field_type = field.field_type
     response_messages = self.config.response_messages
 
-    if expected_field_type in ['int', 'bool']:
+    if expected_field_type in NUMBER_FIELD_TYPES + BOOL_FIELD_TYPES:
         try:
             int(value)
         except (ValueError, TypeError):
             return self.response_json(status_code=400,
                                       message=response_messages.ErrorTypeInteger.format(value) if expected_field_type == 'int' else response_messages.ErrorTypeBoolean.format(value))
 
-    elif expected_field_type == 'datetime':
+    elif expected_field_type in TIME_FIELD_TYPES:
         try:
             int(value)
         except Exception:
