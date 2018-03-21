@@ -5,7 +5,7 @@ You would do this with something like `http://127.0.0.1:8000/person?id__gte=10` 
 equal to 10.
 
 Here is the list of these query parameters and what they do:
-
+  * `page`: select the specified page, 100 records per page `?page=2`
   * `startswith`: field starts with the desired value
   * `contains`: field contains the desired value
   * `lt`: field is less than the value
